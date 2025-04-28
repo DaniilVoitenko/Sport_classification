@@ -108,8 +108,8 @@ def build_cnn(input_shape, num_classes):
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
-def train_model(frame_dir, epochs=10):
-    datagen = ImageDataGenerator(rescale=1./255, validation_split=0.2)
+def train_model(frame_dir, epochs=75):
+    datagen = ImageDataGenerator(rescale=1./255, validation_split=0.25)
     train_gen = datagen.flow_from_directory(
         frame_dir, target_size=(64, 64), batch_size=32,
         color_mode='grayscale', class_mode='categorical', subset='training')
@@ -153,7 +153,7 @@ print("Extracting frames...")
 process_downloaded_videos(video_output_dir, video_list_path, frame_output_dir)
 
 print("Training model...")
-model = train_model(frame_output_dir, epochs=10)
+model = train_model(frame_output_dir, epochs=75)
 
 
 model.save("/content/cpsm_sports_model.h5")
